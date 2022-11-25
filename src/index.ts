@@ -1,14 +1,20 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from "axios";
+import { EventEmitter } from "events";
 
-import { EventEmitter } from 'events';
-import { ClientConfiguration } from './interface/config.interface';
+import { ClientConfiguration } from "./interface/config.interface";
 
-import { FeedBackTemplate } from './templates/feedback.template';
+import { BasicRouteTemplate } from "./templates/basicRoutes.template";
+import { RatingTemplate } from "./templates/rating.template";
+import { SellerTemplate } from "./templates/sellerlead.template";
 
 export class Client extends EventEmitter {
   private readonly apiKey?: string;
   private readonly http: AxiosInstance;
-  readonly feedBackTemplates: FeedBackTemplate;
+  readonly feedBackTemplate: BasicRouteTemplate;
+  readonly gstTemplate: BasicRouteTemplate;
+  readonly sellerTemplate: BasicRouteTemplate;
+  readonly ratingTemplate: RatingTemplate;
+  readonly sellerLeadTemplate: SellerTemplate;
 
   constructor(apiKey: string, config: ClientConfiguration) {
     super();
@@ -21,21 +27,18 @@ export class Client extends EventEmitter {
       },
     });
 
-   
-    this.feedBackTemplates = new FeedBackTemplate(this.http);
+    this.feedBackTemplate = new BasicRouteTemplate(this.http);
+    this.gstTemplate = new BasicRouteTemplate(this.http);
+    this.sellerTemplate = new BasicRouteTemplate(this.http);
+    this.ratingTemplate = new RatingTemplate(this.http);
+    this.sellerLeadTemplate = new SellerTemplate(this.http);
   }
 
-
-
   private buildBackendUrl(config: ClientConfiguration) {
-   
-
     if (!config?.backendUrl) {
-      return `https://http://localhost:8080/`;
+      return `https://http://localhost:8080`;
     }
 
-    return config?.backendUrl
-      && config?.backendUrl
-      
+    return config?.backendUrl && config?.backendUrl;
   }
 }

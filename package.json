@@ -16,12 +16,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/node": "^18.11.9",
     "axios": "^1.2.0",
+    "axios-mock-adapter": "^1.21.2",
+    "chai": "^4.3.7",
     "events": "^3.3.0",
+    "mocha": "^10.1.0",
+    "nock": "^13.2.9",
     "nodemon": "^2.0.20"
   },
   "devDependencies": {
-    "@types/events": "^3.0.0"
+    "@types/events": "^3.0.0",
+    "@types/mocha": "^10.0.0"
   }
 }
- 
