@@ -26,6 +26,7 @@ export class Client extends EventEmitter {
         Authorization: `ApiKey ${this.apiKey}`,
       },
     });
+    this.http.interceptors.response.use((response) => response,(error)=>error.response)
 
     this.feedBackTemplate = new BasicRouteTemplate(this.http);
     this.gstTemplate = new BasicRouteTemplate(this.http);
@@ -35,10 +36,10 @@ export class Client extends EventEmitter {
   }
 
   private buildBackendUrl(config: ClientConfiguration) {
-    if (!config?.backendUrl) {
-      return `https://http://localhost:8080`;
+    if (!config.backendUrl) {
+      return `http://localhost:8080`
     }
 
-    return config?.backendUrl && config?.backendUrl;
+    return config.backendUrl && config.backendUrl;
   }
 }

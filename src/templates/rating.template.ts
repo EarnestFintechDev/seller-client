@@ -3,7 +3,8 @@ export class RatingTemplate extends ClientHttp {
   /**
    * @param {string} ratingId - ratingId of the rating to get details of rating.
    */
-  async getAverageRating(ratingId: string) {
-    return await this.http.get(`/rating/avearge/?id=${ratingId}`);
+  async getAverageRating(sellerId: string) {
+    const response= await this.http.get(`/rating/average/?id=${sellerId}`);
+    return response.data;
   }
 }

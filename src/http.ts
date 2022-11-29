@@ -1,7 +1,7 @@
-import { AxiosInstance, AxiosError } from "axios";
+import { AxiosInstance} from "axios";
 import { Routes } from "./interface/routes.interface";
 export class ClientHttp implements Routes {
-    http: AxiosInstance;
+  http: AxiosInstance;
 
   constructor(http: AxiosInstance) {
     this.http = http;
@@ -10,106 +10,52 @@ export class ClientHttp implements Routes {
   /**
    * @param {string} routeUrl - it is the endpoint of the route
    * @param {number} page - Page number to fetch
-   * @param {number} limit - Number of results to fetch in one page
+   * @param {number} count - Number of results to fetch in one page
    * @param {number} orderBy - type is string
    * @param {number} order - ordered data in ASC or DESC order
    */
   async getAll(
     routeUrl: string,
     page?: number,
-    limit?: number,
+    count?: number,
     orderBy?: string,
     order?: string
   ) {
     if (
       page === undefined &&
-      limit === undefined &&
+      count === undefined &&
       orderBy === undefined &&
       order === undefined
     ) {
-      try {
-        return await this.http.get(`${routeUrl}`);
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err);
-      }
+      const response = await this.http.get(`${routeUrl}`);
+      return response.data;
     } else if (page === undefined) {
-      try {
-        return await this.http.get(`/${routeUrl}`, {
-          params: {
-            limit,
-          },
-        });
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err.message, err);
-      }
-    } else if (limit === undefined) {
-      try {
-        return await this.http.get(`/${routeUrl}`, {
-          params: { page },
-        });
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err.message, err);
-      }
+      const response = await this.http.get(`${routeUrl}`, {
+        params: {count,order, orderBy},
+      });
+      return response.data;
+    } else if (count === undefined) {
+      const response = await this.http.get(`${routeUrl}`, {
+        params: { page,order,orderBy, },
+      });
+      return response.data;
     } else if (orderBy === undefined) {
-      try {
-        return await this.http.get(`/${routeUrl}`, {
-          params: { page, limit },
-        });
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err.message, err);
-      }
+      const response = await this.http.get(`${routeUrl}`, {
+        params: { page, count },
+      });
+      return response.data;
     } else if (order === undefined) {
-      try {
-        return await this.http.get(`/${routeUrl}`, {
-          params: { page, limit, order },
-        });
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
+      const response = await this.http.get(`${routeUrl}`, {
+        params: { page, count, orderBy },
+      });
+      return response.data;
 
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err.message, err);
-      }
-    } else {
-      try {
-        return await this.http.get(`/${routeUrl}`, {
-          params: { page, limit, orderBy, order },
-        });
-      } catch (err: any) {
-        if (err.response && err.response.data) {
-          const { error_code, description } = err.response.data;
-          const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-          throw new AxiosError(msg, err);
-        }
-        throw new AxiosError(err.message, err);
-      }
+    }
+     else {
+      const response = await this.http.get(`${routeUrl}`, {
+        params: { page, count, orderBy, order },
+      });
+      return response.data;
     }
   }
 
@@ -119,20 +65,10 @@ export class ClientHttp implements Routes {
    */
 
   async create<Payload>(data: Payload, routeUrl: string) {
-    try {
-    
-      return await this.http.post(`/${routeUrl}`, {
-        ...data,
-      });
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        const { error_code, description } = err.response.data;
-        const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-        return new AxiosError(msg, err);
-      }
-      throw new AxiosError(err.message, err);
-    }
+    const response = await this.http.post(`${routeUrl}`, {
+      ...data,
+    });
+    return response.data;
   }
 
   /**
@@ -142,19 +78,10 @@ export class ClientHttp implements Routes {
    */
 
   async update<Payload>(data: Payload, routeUrl: string, id: string) {
-    try {
-      return await this.http.put(`/${routeUrl}/${id}`, {
-        ...data,
-      });
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        const { error_code, description } = err.response.data;
-        const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-        throw new AxiosError(msg, err);
-      }
-      throw new AxiosError(err.message, err);
-    }
+    const response = await this.http.put(`${routeUrl}/${id}`, {
+      ...data,
+    });
+    return response.data;
   }
 
   /**
@@ -163,17 +90,8 @@ export class ClientHttp implements Routes {
    */
 
   async delete(routeUrl: string, id: string) {
-    try {
-      return await this.http.delete(`/${routeUrl}/${id}`);
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        const { error_code, description } = err.response.data;
-        const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-        throw new AxiosError(msg, err);
-      }
-      throw new AxiosError(err.message, err);
-    }
+    const response = await this.http.delete(`${routeUrl}/${id}`);
+    return response.data;
   }
 
   /**
@@ -182,16 +100,7 @@ export class ClientHttp implements Routes {
    */
 
   async getOne(routeUrl: string, id: string) {
-    try {
-      return await this.http.get(`/${routeUrl}/${id}`);
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        const { error_code, description } = err.response.data;
-        const msg = `sellerClient API - ${error_code} ${description || ""}`;
-
-        throw new AxiosError(msg, err);
-      }
-      throw new AxiosError(err.message, err);
-    }
+    const response = await this.http.get(`${routeUrl}/${id}`);
+    return response.data;
   }
 }
