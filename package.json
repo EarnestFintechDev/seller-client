@@ -10,18 +10,27 @@
     "watch": "tsc -w",
     "dev": "NODE_OPTIONS=--enable-source-maps nodemon -L -w ./dist -w ./src -w docs/build/docs.yaml dist/index.js",
     "dev-w": "set NODE_OPTIONS=--enable-source-maps && nodemon -L -w dist -w src dist/index.js",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "coverage": "c8 --all --reporter=lcov npm run test",
+    "coverage-w": "tsc && c8 --reporter=lcov npm run test-w "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/node": "^18.11.9",
     "axios": "^1.2.0",
+    "axios-mock-adapter": "^1.21.2",
+    "c8": "^7.12.0",
+    "chai": "^4.3.7",
     "events": "^3.3.0",
+    "mocha": "^10.1.0",
+    "nock": "^13.2.9",
     "nodemon": "^2.0.20"
   },
   "devDependencies": {
-    "@types/events": "^3.0.0"
+    "@types/events": "^3.0.0",
+    "@types/mocha": "^10.0.0"
   }
 }
- 
