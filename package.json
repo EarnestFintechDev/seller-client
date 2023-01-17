@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "@EarnestFintechDev/sellerPackage",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -32,5 +32,8 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "@types/mocha": "^10.0.0"
+  },
+  "repository": {
+    "url": "https://github.com/EarnestFintechDev/sellerPackage.git"
   }
 }

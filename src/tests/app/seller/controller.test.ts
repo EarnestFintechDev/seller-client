@@ -62,6 +62,7 @@ const createseller = async () => {
             contactPersonPhoneNumber: "phone",
             gstin: "gstin",
             typeOfOrganization: "type",
+            catlogueExcelFile:"data.Location"
           };
       
           const response = await client.sellerTemplate.update(sellerObj,'/seller',id);
