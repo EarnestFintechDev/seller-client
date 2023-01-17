@@ -1,5 +1,5 @@
 {
-  "name": "@EarnestFintechDev/sellerPackage",
+  "name": "@EarnestFintechDev/seller-client",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
